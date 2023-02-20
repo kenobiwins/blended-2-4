@@ -61,10 +61,7 @@ const usersSlice = createSlice({
           addUser.pending,
           updateUser.pending
         ),
-        state => {
-          state.isLoading = true;
-          state.isError = false;
-        }
+        handlePending
       )
       .addMatcher(
         isAnyOf(
@@ -74,11 +71,7 @@ const usersSlice = createSlice({
           addUser.rejected,
           updateUser.rejected
         ),
-        (state, { payload }) => {
-          state.isLoading = false;
-          state.isError = payload;
-          state.currentUser = null;
-        }
+        handleReject
       )
       .addMatcher(
         isAnyOf(
