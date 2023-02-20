@@ -1,25 +1,38 @@
+// import { Button } from 'components/Button/Button';
+
 import { Button } from 'components/Button/Button';
-import { Modal } from 'components/Modal/Modal';
-import { useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 export const UsersList = ({ users }) => {
-  const [userId, setUserId] = useState('');
+  const location = useLocation();
+
+  const navigate = useNavigate();
+
+  const handleAddUser = () => {
+    navigate('add');
+  };
 
   return (
-    <ul>
-      {users.map(user => {
-        return (
-          <li key={user.id}>
-            <p>{user.name}</p>
-            <p>{user.email}</p>
-            <Button
-              text={'delete user'}
-              clickHandler={() => setUserId(user.id)}
-            />
-          </li>
-        );
-      })}
-      {userId && <Modal userId={userId} handleClose={() => setUserId('')} />}
-    </ul>
+    <>
+      <ul style={{ width: 320 }}>
+        {users.map(({ id, name }) => {
+          return (
+            <li
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 12,
+              }}
+              key={id}
+            >
+              <Link to={id} state={{ from: location }}>
+                {name}
+              </Link>
+            </li>
+          );
+        })}
+      </ul>
+      <Button text={'add user'} clickHandler={() => handleAddUser()} />
+    </>
   );
 };
